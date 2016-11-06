@@ -1,3 +1,5 @@
+# Modified from https://github.com/vipul-sharma20/gesture-opencv
+# Yanelis Lopez
 import cv2
 import numpy as np
 import math
@@ -10,7 +12,6 @@ color = [75,0,135]
 
 while(cap.isOpened()):
     ret, img = cap.read()
-    cv2.rectangle(img,(500,500),(100,100),(0,255,0),0)
     crop_img = img
     grey = cv2.cvtColor(crop_img, cv2.COLOR_BGR2GRAY)
     value = (35, 35)
@@ -52,8 +53,8 @@ while(cap.isOpened()):
         if angle <= 90:
             count_defects += 1
             cv2.circle(crop_img,far,3,[0,0,255],-1)
-        #dist = cv2.pointPolygonTest(cnt,far,True)
-        cv2.line(crop_img,start,end,[0,255,0],2)
+
+        # cv2.line(crop_img,start,end,[0,255,0],2)
 
         # Save the point positions in array
         # if (i % 4 == 0):
@@ -62,14 +63,13 @@ while(cap.isOpened()):
         points.append(start)
         points.append(end)
 
-
-
         for j in range(0, len(points) - 1):
             if j > 1000:
                 points.pop(0)
                 colors.pop(0)
             else:
                 cv2.circle(crop_img, points[j], 3, colors[j], -1)
+                # cv2.circle(crop_img, [temp_point[0] + 2, temp_point[1] + 2], 3, colors[j], -1)
 
         #cv2.circle(crop_img,far,5,[0,0,255],-1)
     #cv2.imshow('drawing', drawing)
