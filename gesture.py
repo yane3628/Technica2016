@@ -5,11 +5,13 @@ points = []
 
 cap = cv2.VideoCapture(0)
 
+colors = []
+color = [75,0,135]
 
 while(cap.isOpened()):
     ret, img = cap.read()
-    cv2.rectangle(img,(300,300),(100,100),(0,255,0),0)
-    crop_img = img[100:300, 100:300]
+    cv2.rectangle(img,(500,500),(100,100),(0,255,0),0)
+    crop_img = img
     grey = cv2.cvtColor(crop_img, cv2.COLOR_BGR2GRAY)
     value = (35, 35)
     blurred = cv2.GaussianBlur(grey, value, 0)
@@ -54,15 +56,20 @@ while(cap.isOpened()):
         cv2.line(crop_img,start,end,[0,255,0],2)
 
         # Save the point positions in array
-
+        # if (i % 4 == 0):
+        colors.append(color)
+        colors.append(color)
         points.append(start)
         points.append(end)
 
+
+
         for j in range(0, len(points) - 1):
-            if j > 500:
+            if j > 1000:
                 points.pop(0)
+                colors.pop(0)
             else:
-                cv2.line(crop_img, points[j], points[j+1], [255,0,255], 2)
+                cv2.circle(crop_img, points[j], 3, colors[j], -1)
 
         #cv2.circle(crop_img,far,5,[0,0,255],-1)
     #cv2.imshow('drawing', drawing)
@@ -73,3 +80,11 @@ while(cap.isOpened()):
     k = cv2.waitKey(10)
     if k == 27:
         break
+    elif k == ord('a'):
+        color = [75,0,135]
+    elif k == ord('s'):
+        color = [221,160,221]
+    elif k == ord('d'):
+        color = [255,0,255]
+    elif k == ord('w'):
+        color = [148,0,211]
